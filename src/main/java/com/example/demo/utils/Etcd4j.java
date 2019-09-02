@@ -10,6 +10,7 @@ import com.coreos.jetcd.Client;
 import com.coreos.jetcd.KV;
 import com.coreos.jetcd.data.ByteSequence;
 import com.coreos.jetcd.data.KeyValue;
+import com.coreos.jetcd.kv.GetResponse;
 import com.coreos.jetcd.kv.PutResponse;
 import com.coreos.jetcd.lease.LeaseGrantResponse;
 import com.coreos.jetcd.lock.LockResponse;
@@ -29,27 +30,11 @@ public class Etcd4j {
 	
 	
 	public static void main(String[] args) {
-		putEtcdKey("testdir/1", "makedir");
-		client.close();
-		KeyValue etcdKey = getEtcdKey("test/1");
-		System.out.println(etcdKey.getValue());
-
+		String value = getEtcdKey("test/1");
 	}
 	
     private static Client client = null;
  
-    /**
-     * init EtcdClient 初始化Etcd客户端
-     *
-     * @return EtcdClient instance
-     */
-    public static Client getClient() {
-    	if(client == null) {
-    		initClient();
-    	}
-    	
-        return client;
-    }
     
     public static void closeClient() {
     	if(client != null) {
@@ -60,8 +45,9 @@ public class Etcd4j {
  
     /**
      * init EtcdClient 初始化Etcd客户端
+     * @return 
      */
-    public static synchronized void initClient() {
+    public static synchronized Client getClient() {
         if (null == client) {
             //read current ip;
             //String machineIp = getMachineIp();
@@ -70,25 +56,32 @@ public class Etcd4j {
             client = Client.builder().endpoints("http://192.168.85.129:2379").build();
             //Client connect = Client.builder().endpoints(EtcdHosts).authority("root:password").build();
         }
+        return client;
     }
- 
+    
+    
     /**
      * get single etcdKey from etcd; 从Etcd获取单个key
      *
      * @param key etcdKey
      * @return    etcdKey and value 's instance
      */
-    public static KeyValue getEtcdKey(String key) {
-        KeyValue keyValue = null;
+    public static String getEtcdKey(String key) {
         try {
         	Client client = getClient();
         	KV kvClient = client.getKVClient();
         	ByteSequence keyByte = ByteSequence.fromString(key);
-        	kvClient.get(keyByte).get().getKvs().get(0);
+        	CompletableFuture<GetResponse> getResponse = kvClient.get(keyByte);
+        	GetResponse response = getResponse.get();
+        	List<KeyValue> kvs = response.getKvs();
+            if(kvs.size()>0){
+                String value = kvs.get(0).getValue().toStringUtf8();
+                return value;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return keyValue;
+        return null;
     }
  
     /**

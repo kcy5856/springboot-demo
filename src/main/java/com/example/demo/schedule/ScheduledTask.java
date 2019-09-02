@@ -8,8 +8,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.thread.ThreadPool;
-
 /**
  * 定时任务统一处理
  * @author harmonyCloud
@@ -21,13 +19,13 @@ import com.example.demo.thread.ThreadPool;
 public class ScheduledTask {
 	
 	@Async
-	@Scheduled(fixedRate = 500000, initialDelay = 12000)
+	@Scheduled(fixedRate = 50000000, initialDelay = 12000)
 	public void reportCurrentTime() {
 	    System.out.println(Thread.currentThread() + "每隔五秒钟执行一次： " + new Date());
 	}
 
 	@Async
-	@Scheduled(fixedRate = 500000, initialDelay = 12000)
+	@Scheduled(fixedRate = 60000000, initialDelay = 12000)
 	public void reportNewCurrentTime() {
 	    System.out.println(Thread.currentThread() +"每隔新五秒钟执行一次： " + new Date());
 	    
