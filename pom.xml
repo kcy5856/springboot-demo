@@ -61,6 +61,10 @@
 		</dependency>
 		
 		<dependency>
+		    <groupId>io.netty</groupId>
+		    <artifactId>netty-all</artifactId>
+		    </dependency>
+		<dependency>
 		    <groupId>com.coreos</groupId>
 		    <artifactId>jetcd-core</artifactId>
 		    <version>0.0.2</version>

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.javassist.ClassMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.example.demo.annotation.DataSource;
 import com.example.demo.annotation.MyAspect;
+import com.example.demo.common.enums.DataSourceType;
 import com.example.demo.common.tools.PropertiesHelper;
+import com.example.demo.dao.ClassMapper;
 import com.example.demo.dao.StudentMapper;
 import com.example.demo.exception.BizException;
+import com.example.demo.model.ClassModel;
 import com.example.demo.service.DemoService;
 import com.example.demo.thread.ThreadPool;
 
@@ -27,6 +32,9 @@ public class DemoServiceImpl implements DemoService {
 	
 	@Autowired
 	private StudentMapper studentMapper;
+	
+	@Autowired
+	private ClassMapper classMapper;
 	
 	@Autowired
 	private Environment env;
@@ -59,6 +67,13 @@ public class DemoServiceImpl implements DemoService {
 				
 			}
 		});
+		
+	}
+	
+	@DataSource(DataSourceType.MYSQL_2)
+	@Override
+	public void printData() {
+		System.out.println(classMapper.listAllClass());
 		
 	}
 

@@ -44,6 +44,7 @@ public class DemoController {
 		}
 		String val = demoService.getName(name);
 		logger.debug(val);
+		demoService.printData();
 		return val;
 	}
 	
