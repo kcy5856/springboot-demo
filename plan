@@ -24,3 +24,5 @@
 	2. 代码检测，sonar等
 	3. 项目持续集成，jenkins
 	4. 脚本引擎
+
+六、 基于netty的socket连接

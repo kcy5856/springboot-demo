@@ -1,12 +1,21 @@
 package com.example.demo.mytest;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Test1 {
 
 	public static void main(String[] args) {
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 22);
+		cal.set(Calendar.MINUTE, 20);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		System.out.println(cal.getTime());
+		
 //		BigDecimal big = new BigDecimal(0.2223333);
 //		String doubleValue = big.divide(BigDecimal.valueOf(1000)).setScale(4, BigDecimal.ROUND_HALF_UP).stripTrailingZeros().toPlainString();
 //		System.out.println(doubleValue);

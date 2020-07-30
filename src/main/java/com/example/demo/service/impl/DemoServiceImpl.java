@@ -8,6 +8,7 @@ import org.apache.ibatis.javassist.ClassMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,9 @@ public class DemoServiceImpl implements DemoService {
 	@Autowired
 	private Environment env;
 	
+	@Value("${custom.test.pass}")
+	public String pass;
+	
 	@Override
 	@MyAspect("getName")
 	public String getName(String val) {
@@ -50,6 +54,8 @@ public class DemoServiceImpl implements DemoService {
 		logger.debug(JSON.toJSON(listAllStudent).toString());
 		
 		//Environment获取springboot配置
+		logger.debug("pass is:" + pass);
+		
 		logger.debug("name is:" + env.getProperty("custom.test.user"));
 		
 		logger.debug("self define properties: " + PropertiesHelper.getProperty("fas.vv"));
