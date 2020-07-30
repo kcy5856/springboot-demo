@@ -18,20 +18,20 @@ public class ScheduledTask {
 	
 	@Scheduled(cron = "${task.print}")
 	public void printWorld() {
-		System.out.println("ok");
+		System.out.println("task printWorld() executed ok");
 	}
 	
 	
 	@Async
-	@Scheduled(fixedRate = 50000000, initialDelay = 12000)
-	public void reportCurrentTime() {
-	    System.out.println(Thread.currentThread() + "每隔五秒钟执行一次： " + new Date());
+	@Scheduled(fixedRate = 10000, initialDelay = 10000)
+	public void reportMyOldCurrentTime() {
+	    System.out.println(Thread.currentThread() + "AAA每隔50钟执行一次： " + new Date());
 	}
 
 	@Async
-	@Scheduled(fixedRate = 60000000, initialDelay = 12000)
-	public void reportNewCurrentTime() {
-	    System.out.println(Thread.currentThread() +"每隔新五秒钟执行一次： " + new Date());
+	@Scheduled(fixedRate = 60000, initialDelay = 12000)
+	public void reportMyNewCurrentTime() {
+	    System.out.println(Thread.currentThread() +"BBB每隔60秒钟执行一次： " + new Date());
 	    
 	}
 

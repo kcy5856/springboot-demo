@@ -16,13 +16,13 @@
 	2. 消息集成，rabbitmq等
 	3. 日志采集分析，elk等
 	4. 微服务方式构建，springcloud等，eureka,zookeeper注册发现
-	5. webapi请求封装
-	6. 
+	5. 基于netty的socket连接
+	6. webapi请求封装
+	7. （未集成）spring security基于RBAC权限模型，复杂权限设计不适用
+	8. （未集成）spring data jpa 使用于表结构松散，表之间关联弱的业务，复杂表关系，及强关联还是用mybatis
 	
 五、 其他
 	1. api接口工具，swagger等
 	2. 代码检测，sonar等
 	3. 项目持续集成，jenkins
 	4. 脚本引擎
-
-六、 基于netty的socket连接
