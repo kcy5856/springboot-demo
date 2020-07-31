@@ -2,14 +2,15 @@ package com.example.demo.controller;
 
 import java.util.Objects;
 
+import com.example.demo.annotation.Limit;
+import com.example.demo.config.RabbitMQConfig;
+import com.example.demo.rabbitmq.MsgProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.common.cache.CacheManager;
 import com.example.demo.service.DemoService;
@@ -28,13 +29,17 @@ public class DemoController {
 	@Autowired
 	private CacheManager cache;
 
+	//注入RabbitMQ的模板
+	@Autowired
+	private MsgProducer msgProducer;
+
 	@RequestMapping(value="/change", method = RequestMethod.GET)
 	private String changeParam(@RequestParam(value="isPublic", required = false) Boolean isPublic) {
 		logger.debug("isPublic: {}", isPublic);
 		logger.info(cache.get("gao").toString());
 		return "" + isPublic;
 	}
-	
+
 	@RequestMapping(value="/hello", method = RequestMethod.GET)
 	private String getHello(@RequestParam(value="name") String name) {
 		cache.set("gao", "jin");
@@ -46,6 +51,18 @@ public class DemoController {
 		logger.debug(val);
 		demoService.printData();
 		return val;
+	}
+
+	/**
+	 * 测试
+	 */
+	@Limit(name="testLimit", key = "hello", prefix = "limit", period = 10, count = 1)
+	@RequestMapping(value="/sendmsg", method = RequestMethod.GET)
+	public String sendMsg(@RequestParam String msg, @RequestParam String key){
+
+		msgProducer.sendMessage(key, msg);
+		//返回消息
+		return "发送消息成功！";
 	}
 	
 }

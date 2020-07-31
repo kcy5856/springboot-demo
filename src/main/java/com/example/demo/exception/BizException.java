@@ -14,6 +14,11 @@ public class BizException extends RuntimeException {
 	private Integer code;
 	private String message;
 	private Object data;
+
+	public BizException( String msg) {
+		this.code = 500;
+		this.message = msg;
+	}
 	
 	public BizException(Integer code, String msg) {
 		this.code = code;
