@@ -1,10 +1,15 @@
 package com.example.demo.service.impl;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.ibatis.javassist.ClassMap;
+import com.alibaba.fastjson.JSON;
+import com.example.demo.annotation.DataSource;
+import com.example.demo.annotation.MyAspect;
+import com.example.demo.common.enums.DataSourceType;
+import com.example.demo.common.tools.PropertiesHelper;
+import com.example.demo.dao.db1.StudentMapper;
+import com.example.demo.dao.db2.ClassMapper;
+import com.example.demo.exception.BizException;
+import com.example.demo.service.DemoService;
+import com.example.demo.thread.ThreadPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +19,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.alibaba.fastjson.JSON;
-import com.example.demo.annotation.DataSource;
-import com.example.demo.annotation.MyAspect;
-import com.example.demo.common.enums.DataSourceType;
-import com.example.demo.common.tools.PropertiesHelper;
-import com.example.demo.dao.ClassMapper;
-import com.example.demo.dao.StudentMapper;
-import com.example.demo.exception.BizException;
-import com.example.demo.model.ClassModel;
-import com.example.demo.service.DemoService;
-import com.example.demo.thread.ThreadPool;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @PropertySource("classpath:business.properties")
@@ -75,7 +72,7 @@ public class DemoServiceImpl implements DemoService {
 		});
 		
 	}
-	
+
 	@DataSource(DataSourceType.MYSQL_2)
 	@Override
 	public void printData() {

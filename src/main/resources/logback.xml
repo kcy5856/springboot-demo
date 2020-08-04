@@ -11,7 +11,7 @@
     <!-- logback项目名称 -->
     <property name="appName" value="demo"></property>
     <!-- 日志级别 DEBUGER INFO WARN ERROR -->
-    <property name="logLevel" value="INFO"></property>
+    <property name="logLevel" value="DEBUG"></property>
     <!-- 日志路径-->
     <property name="logPath" value="/opt/logs"></property>
     <!-- 最大保存时间 30天-->

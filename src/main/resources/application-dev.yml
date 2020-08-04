@@ -20,11 +20,10 @@ spring:
          max-file-size: 10MB
          max-request-size: 100MB
    rabbitmq:
-      host: 127.0.0.1
+      host: 192.168.85.129
       port: 5672
-      virtual-host: /mq
-      username: test01
-      password: test01
+      username: admin
+      password: admin
    redis:
       database: 0
       cluster:

@@ -1,10 +1,7 @@
 package com.example.demo.config;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.sql.DataSource;
-
+import com.example.demo.common.enums.DataSourceType;
+import com.example.demo.datasource.DynamicDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -13,12 +10,13 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.example.demo.common.enums.DataSourceType;
-import com.example.demo.datasource.DynamicDataSource;
+import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class DataSourceConfig {
-	@Primary
+
     @Bean(name = "firstDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.first")
 	public DataSource firsttDataSource() {
@@ -30,7 +28,8 @@ public class DataSourceConfig {
 	public DataSource secondDataSource() {
 		return DataSourceBuilder.create().build();
 	}
-    
+
+	@Primary
     @Bean(name = "dynamicDataSource")
     public DataSource dataSource() {
     	DynamicDataSource dynamicDataSource = new DynamicDataSource();
