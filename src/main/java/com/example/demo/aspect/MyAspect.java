@@ -25,14 +25,14 @@ public class MyAspect {
 	@Around("myCut()")
 	public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
 		Object result = null;
-		//logger.debug("around begin ...");
+		logger.info("around begin ...");
 		try {
 			result = joinPoint.proceed();
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw e;
 		}
-		//logger.debug("around end ...");
+		logger.info("around end ...");
 		return result;
 	}
 	
