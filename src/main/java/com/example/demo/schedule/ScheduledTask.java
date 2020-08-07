@@ -1,7 +1,10 @@
 package com.example.demo.schedule;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
+import com.example.demo.utils.RedisUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,17 +18,13 @@ import org.springframework.stereotype.Component;
 @Component
 @EnableAsync
 public class ScheduledTask {
+
+	@Autowired
+	RedisUtils redisUtils;
 	
 	@Scheduled(cron = "${task.print}")
 	public void printWorld() {
 		System.out.println("task printWorld() executed ok");
-	}
-	
-	
-	@Async
-	@Scheduled(fixedRate = 10000, initialDelay = 10000)
-	public void reportMyOldCurrentTime() {
-	    System.out.println(Thread.currentThread() + "AAA每隔50钟执行一次： " + new Date());
 	}
 
 	@Async
@@ -36,9 +35,12 @@ public class ScheduledTask {
 	}
 
 	@Async
-	@Scheduled(cron = "0 48 16 ? * *")
+	@Scheduled(cron = "0 0/10 * * * ?")
 	public void fixTimeExecution() {
-	    System.out.println("在指定时间 " + new Date() + "执行");
+		boolean lock = redisUtils.getLock("targetTime", 600, TimeUnit.SECONDS);
+		if (lock) {
+			System.out.println("在指定时间 " + new Date() + "执行");
+		}
 	}
 	
 }

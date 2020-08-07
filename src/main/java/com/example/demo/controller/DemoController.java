@@ -54,7 +54,7 @@ public class DemoController {
 	/**
 	 * 测试
 	 */
-	@Limit(name="testLimit", key = "hello", prefix = "limit", period = 10, count = 1)
+	@Limit(name="testLimit", key = "hello", prefix = "limit", period = 30, count = 5)
 	@RequestMapping(value="/sendmsg", method = RequestMethod.GET)
 	public String sendMsg(@RequestParam String msg, @RequestParam String key){
 	    String nkey = "item.aaa";

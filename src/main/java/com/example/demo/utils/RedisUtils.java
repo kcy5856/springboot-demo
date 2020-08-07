@@ -705,4 +705,19 @@ public class RedisUtils {
         log.debug("缓存删除数量：" + count + "个");
         log.debug("--------------------------------------------");
     }
+
+    /**
+     * 获取锁
+     * @param key
+     * @param expire
+     * @param timeUnit
+     * @return
+     */
+    public boolean getLock(String key, long expire, TimeUnit timeUnit){
+        Object val = redisTemplate.opsForValue().get(key);
+        if (Objects.isNull(val)){
+            return redisTemplate.opsForValue().setIfAbsent(key, "LOCKED", expire, timeUnit);
+        }
+        return false;
+    }
 }
