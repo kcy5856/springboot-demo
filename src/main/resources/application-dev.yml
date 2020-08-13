@@ -57,3 +57,6 @@ logging:
          example:
 #showSql
             demo: debug
+biz:
+   user:
+      topic: item_queue
