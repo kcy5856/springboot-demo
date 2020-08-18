@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.annotation.Limit;
 import com.example.demo.annotation.MyAspect;
 import com.example.demo.common.enums.ErrorEnum;
+import com.example.demo.exception.BizException;
 import com.example.demo.model.Student;
 import com.example.demo.model.common.Result;
 import com.example.demo.rabbitmq.MsgProducer;
@@ -39,8 +40,13 @@ public class DemoController {
 	public String changeParam(@RequestParam(value="isPublic", required = false) Boolean isPublic) {
 		logger.debug("isPublic: {}", isPublic);
 		logger.info(redisUtils.get("gao").toString());
-		return "" + isPublic;
+		return "ok";
 	}
+
+    @RequestMapping(value="/get", method = RequestMethod.GET)
+    public Integer getInt() {
+        return 1;
+    }
 
 	@MyAspect
 	@RequestMapping(value="/hello", method = RequestMethod.GET)
@@ -61,7 +67,7 @@ public class DemoController {
 	 */
 	@Limit(name="testLimit", key = "hello", prefix = "limit", period = 30, count = 5)
 	@RequestMapping(value="/sendmsg", method = RequestMethod.GET)
-	public Result<Student> sendMsg(@RequestParam String msg, @RequestParam String key){
+	public Student sendMsg(@RequestParam String msg, @RequestParam String key){
 	    String nkey = "item.aaa";
 	    String mmsg = "test";
 		msgProducer.sendMessage(nkey, mmsg);
@@ -69,7 +75,7 @@ public class DemoController {
         Student student = new Student();
         student.setBirthday(new Date());
         student.setName("奥力给");
-		return ResultUtil.success(student);
+		return student;
 	}
 	
 }

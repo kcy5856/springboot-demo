@@ -19,7 +19,7 @@ public class DemoExceptionHandler {
     public Result bizExceptionHandler(BizException e) {
         Result response = new Result();
         response.setCode(e.getCode());
-        response.setMsg(e.getMessage());
+        response.setMsg(e.getMsg());
         response.setData(e.getData());
         return response;
     }
