@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.annotation.Limit;
 import com.example.demo.annotation.MyAspect;
+import com.example.demo.model.Student;
 import com.example.demo.rabbitmq.MsgProducer;
 import com.example.demo.service.DemoService;
 import com.example.demo.utils.RedisUtils;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.Objects;
 
 @RestController
@@ -56,12 +58,15 @@ public class DemoController {
 	 */
 	@Limit(name="testLimit", key = "hello", prefix = "limit", period = 30, count = 5)
 	@RequestMapping(value="/sendmsg", method = RequestMethod.GET)
-	public String sendMsg(@RequestParam String msg, @RequestParam String key){
+	public Student sendMsg(@RequestParam String msg, @RequestParam String key){
 	    String nkey = "item.aaa";
 	    String mmsg = "test";
 		msgProducer.sendMessage(nkey, mmsg);
 		//返回消息
-		return "发送消息成功！";
+        Student student = new Student();
+        student.setBirthday(new Date());
+        student.setName("奥力给");
+		return student;
 	}
 	
 }
