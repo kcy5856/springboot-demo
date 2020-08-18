@@ -2,10 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.annotation.Limit;
 import com.example.demo.annotation.MyAspect;
+import com.example.demo.common.enums.ErrorEnum;
 import com.example.demo.model.Student;
+import com.example.demo.model.common.Result;
 import com.example.demo.rabbitmq.MsgProducer;
 import com.example.demo.service.DemoService;
 import com.example.demo.utils.RedisUtils;
+import com.example.demo.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +44,7 @@ public class DemoController {
 
 	@MyAspect
 	@RequestMapping(value="/hello", method = RequestMethod.GET)
-	public String getHello(@RequestParam(value="name") String name) {
+	public Result getHello(@RequestParam(value="name") String name) {
 		redisUtils.set("gao", "jin");
 		Object bean = applicationContext.getBean("demoServiceImpl");
 		if (!Objects.isNull(bean)) {
@@ -50,7 +53,7 @@ public class DemoController {
 		String val = demoService.getName(name);
 		logger.debug(val);
 		demoService.printData();
-		return "fds";
+		return ResultUtil.error(ErrorEnum.DATA_NOT_EXIST);
 	}
 
 	/**
@@ -58,7 +61,7 @@ public class DemoController {
 	 */
 	@Limit(name="testLimit", key = "hello", prefix = "limit", period = 30, count = 5)
 	@RequestMapping(value="/sendmsg", method = RequestMethod.GET)
-	public Student sendMsg(@RequestParam String msg, @RequestParam String key){
+	public Result<Student> sendMsg(@RequestParam String msg, @RequestParam String key){
 	    String nkey = "item.aaa";
 	    String mmsg = "test";
 		msgProducer.sendMessage(nkey, mmsg);
@@ -66,7 +69,7 @@ public class DemoController {
         Student student = new Student();
         student.setBirthday(new Date());
         student.setName("奥力给");
-		return student;
+		return ResultUtil.success(student);
 	}
 	
 }
