@@ -53,6 +53,28 @@ public class DateUtil {
 	}
 
 	/**
+	 * 增加日期中某类型的某数值。如增加日期
+	 *
+	 * @param date
+	 *            日期
+	 * @param dateType
+	 *            类型
+	 * @param amount
+	 *            数值
+	 * @return 计算后日期
+	 */
+	private static Date addInteger(Date date, int dateType, int amount){
+		Date myDate = null;
+		if(date != null){
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+			calendar.add(dateType, amount);
+			myDate = calendar.getTime();
+		}
+		return myDate;
+	}
+
+	/**
 	 * 根据小时和分钟获取日期时间
 	 * @param hours
 	 * @param minute

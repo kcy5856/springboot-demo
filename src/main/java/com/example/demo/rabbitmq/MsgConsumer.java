@@ -6,8 +6,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
-@RabbitListener(queues = "${biz.user.topic}")
+//@Component
+//@RabbitListener(queues = "${biz.user.topic}")
 public class MsgConsumer {
 
     @Autowired

@@ -15,7 +15,7 @@ public class MyInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		//logger.debug("MyInterceptor preHandle ...");
+		logger.debug("MyInterceptor preHandle ...");
 		
 		return true;
 	}
@@ -25,7 +25,7 @@ public class MyInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		
-		//logger.debug("MyInterceptor postHandle ...");
+		logger.debug("MyInterceptor postHandle ...");
 		
 	}
 	
@@ -33,7 +33,7 @@ public class MyInterceptor implements HandlerInterceptor {
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
 
-		//logger.debug("MyInterceptor afterCompletion ...");
+		logger.debug("MyInterceptor afterCompletion ...");
 		
 	}
 }

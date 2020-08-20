@@ -19,7 +19,7 @@ public class DataSourceConfig {
 
     @Bean(name = "firstDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.first")
-	public DataSource firsttDataSource() {
+	public DataSource firstDataSource() {
 		return DataSourceBuilder.create().build();
 	}
 	
@@ -34,11 +34,11 @@ public class DataSourceConfig {
     public DataSource dataSource() {
     	DynamicDataSource dynamicDataSource = new DynamicDataSource();
     	//设置默认数据源
-    	dynamicDataSource.setDefaultTargetDataSource(firsttDataSource());
+    	dynamicDataSource.setDefaultTargetDataSource(firstDataSource());
     	
     	//配置多数据源
         Map<Object, Object> dataSourceMap = new HashMap<>();
-        dataSourceMap.put(DataSourceType.MYSQL_1, firsttDataSource());
+        dataSourceMap.put(DataSourceType.MYSQL_1, firstDataSource());
         dataSourceMap.put(DataSourceType.MYSQL_2, secondDataSource());
         dynamicDataSource.setTargetDataSources(dataSourceMap);
         return dynamicDataSource;
