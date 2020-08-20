@@ -1,6 +1,7 @@
 package com.example.demo.common.enums;
 
 public enum DateStyle {
+	STANDARD("yyyy-MM-dd HH:mm:ss"),
 	YYYYMMDD("yyyyMMdd"),
 	HHMMSS("HHmmss"),
 	YYYYMMDDHHMMSS("yyyyMMddHHmmss"),
