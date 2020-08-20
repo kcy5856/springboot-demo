@@ -24,6 +24,12 @@ public class ResultUtil {
         return success(null);
     }
 
+    public static Result error() {
+        Result result = new Result();
+        result.setCode(ErrorEnum.ERROR.code());
+        return result;
+    }
+
     public static Result error(Integer code, String msg) {
         Result result = new Result();
         result.setCode(code);
@@ -42,6 +48,13 @@ public class ResultUtil {
         Result result = new Result();
         result.setCode(errorEnum.code());
         result.setMsg(errorEnum.msg());
+        return result;
+    }
+
+    public static Result error(ErrorEnum errorEnum, String ext) {
+        Result result = new Result();
+        result.setCode(errorEnum.code());
+        result.setMsg(errorEnum.msg() + ": " + ext);
         return result;
     }
 }

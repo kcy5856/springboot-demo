@@ -5,6 +5,8 @@ public enum ErrorEnum {
     PARAM_ERROR(10002, "param wrong", "参数错误"),
     DATA_NOT_EXIST(10003, "data not exist", "数据不存在"),
     DATA_EXIST(10004, "data exist", "数据已存在"),
+    CONNECT_FAIL(20000, "connect fail", "连接失败"),
+    HTTP_ERROR(20001, "https call error.", "访问外部服务异常"),
     EXCEPTION(9999, "execute exception", "处理异常"),
     ERROR(-9999, "execute error", "处理失败");
 
