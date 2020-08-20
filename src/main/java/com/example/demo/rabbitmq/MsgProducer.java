@@ -25,8 +25,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class MsgProducer {
 
-    @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    public MsgProducer(RabbitTemplate rabbitTemplate){
+        this.rabbitTemplate = rabbitTemplate;
+    }
 
     public void sendMessage(String key, String msg){
         /**
