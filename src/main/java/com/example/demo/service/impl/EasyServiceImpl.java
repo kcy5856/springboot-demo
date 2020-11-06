@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @Service
 public class EasyServiceImpl implements EasyService {
@@ -19,10 +21,13 @@ public class EasyServiceImpl implements EasyService {
     @Override
     public String getService() {
         try {
-            Result result = httpClientUtil.get("http://www.baidu.com", null, null);
+            URI uri = new URI("http://www.baidu.com");
+            Result result = httpClientUtil.get(uri, null, null);
             System.out.println(result.getData());
         } catch (IOException e) {
             throw new BizException(ErrorEnum.CONNECT_FAIL);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
         return EasyServiceImpl.class.getName();
     }

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -41,19 +42,17 @@ public class HttpClientUtil {
 
 	/**
 	 * 发起GET请求,如果没有header和params则设置为null,如果不需要设置长时间timeout则传null
-	 * @param url
+	 * @param uri
 	 * @param headers
 	 * @param params
 	 * @param timeOut
 	 * @return
 	 * @throws Exception
 	 */
-	public Result get(String url, Map<String, Object> headers,
-										Map<String, Object> params, int timeOut) throws IOException{
+	public Result get(URI uri, Map<String, Object> headers,
+					  Map<String, Object> params, int timeOut) throws IOException{
 		HttpClientResponse httpClientResponse = new HttpClientResponse();
-		URIBuilder ub = new URIBuilder();
-		ub.setScheme("http").setHost("blog.csdn.net").setPath("/catoop/article/details/38849497");
-		//ub.setPort(80);
+		URIBuilder ub = new URIBuilder(uri);
 
 		if (params != null) {
 			ArrayList<NameValuePair> pairs = covertParams2NVPS(params);
@@ -83,7 +82,7 @@ public class HttpClientUtil {
 				}
 			}
 		} catch (Exception e) {
-            LOGGER.warn("http请求失败，url:{}", url, e);
+            LOGGER.warn("http请求失败，url:{}", uri, e);
 			return ResultUtil.error(ErrorEnum.CONNECT_FAIL, e.getMessage());
 		} finally {
 			try {
@@ -98,23 +97,23 @@ public class HttpClientUtil {
 	/**
 	 * 发起GET请求,如果没有header和params则设置为null
 	 * 
-	 * @param url
+	 * @param uri
 	 * @param headers
 	 *            请求头
 	 * @param params
 	 *            参数
 	 * @return
 	 */
-	public Result get(String url, Map<String, Object> headers,
+	public Result get(URI uri, Map<String, Object> headers,
 			Map<String, Object> params) throws IOException{
-		return get(url,headers,params,TIMEOUT);
+		return get(uri,headers,params,TIMEOUT);
 	}
 
 
 	/**
 	 * 发起POST请求,如果没有header和params则设置为null
 	 * 
-	 * @param url
+	 * @param uri
 	 * @param headers
 	 *            请求头
 	 * @param params
@@ -122,12 +121,12 @@ public class HttpClientUtil {
 	 * @return
 	 * @throws Exception 
 	 */
-	public Result post(String url, Map<String, Object> headers,
+	public Result post(URI uri, Map<String, Object> headers,
 			Map<String, Object> params) throws Exception {
 		HttpClientResponse httpClientResponse = new HttpClientResponse();
 		
 		try {
-            HttpPost httpPost = new HttpPost(url);
+            HttpPost httpPost = new HttpPost(uri);
             httpPost.setConfig(requestConfig);
             if (headers != null) {
     			for (Entry<String, Object> param : headers.entrySet()) {
@@ -154,9 +153,9 @@ public class HttpClientUtil {
 				}
 			}
 		} catch (ClientProtocolException e) {
-			LOGGER.warn("httpPostRequest失败，url:{}", url, e);
+			LOGGER.warn("httpPostRequest失败，url:{}", uri, e);
 		} catch (IOException e) {
-			LOGGER.warn("httpPostRequest失败，url:{}", url, e);
+			LOGGER.warn("httpPostRequest失败，url:{}", uri, e);
 		} finally {
 			try {
 				if (httpClient != null)
@@ -171,7 +170,7 @@ public class HttpClientUtil {
 	/**
 	 * 发起PUT请求,如果没有header和params则设置为null
 	 *
-	 * @param url
+	 * @param uri
 	 * @param headers
 	 *            请求头
 	 * @param params
@@ -179,12 +178,12 @@ public class HttpClientUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public Result put(String url, Map<String, Object> headers,
+	public Result put(URI uri, Map<String, Object> headers,
 			Map<String, Object> params) throws Exception {
 		HttpClientResponse httpClientResponse = new HttpClientResponse();
 
 		try {
-            HttpPut httpPut = new HttpPut(url);
+            HttpPut httpPut = new HttpPut(uri);
 			httpPut.setConfig(requestConfig);
             if (headers != null) {
     			for (Entry<String, Object> param : headers.entrySet()) {
@@ -211,9 +210,9 @@ public class HttpClientUtil {
 				}
 			}
 		} catch (ClientProtocolException e) {
-			LOGGER.warn("httpPostRequest失败，url:{}", url, e);
+			LOGGER.warn("httpPostRequest失败，url:{}", uri, e);
 		} catch (IOException e) {
-			LOGGER.warn("httpPostRequest失败，url:{}", url, e);
+			LOGGER.warn("httpPostRequest失败，url:{}", uri, e);
 		} finally {
 			try {
 				if (httpClient != null)
@@ -225,14 +224,14 @@ public class HttpClientUtil {
 		return ResultUtil.error();
 	}
 
-	public Result delete(String url,
+	public Result delete(URI uri,
             Map<String, Object> params, Map<String, Object> headers) throws IOException {
         
         CloseableHttpResponse response = null;
         HttpDelete httpDelete = null;
         try {
 
-            httpDelete = new HttpDelete(url);
+            httpDelete = new HttpDelete(uri);
             httpDelete.setConfig(requestConfig);
             setHeaders(httpDelete, headers);
             response = httpClient.execute(httpDelete);

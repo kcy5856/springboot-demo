@@ -3,6 +3,8 @@ package com.example.demo.mytest;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,17 @@ import com.example.demo.utils.FileUtil;
 
 public class TestMain {
 	public static void main(String[] args) {
+		try {
+			URI uri = new URI("http://localhost/api/easy/hello?key=1");
+			System.out.println(uri.getHost());
+			System.out.println(uri.getPort());
+			System.out.println(uri.getPath());
+			System.out.println(uri.getScheme());
+			System.out.println(uri.getQuery());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+
 		System.out.println((int)Math.floor(1/2));
 				
 		System.out.println(PropertiesHelper.getProperty("ks.value"));

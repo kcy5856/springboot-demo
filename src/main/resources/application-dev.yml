@@ -53,7 +53,7 @@ task:
    print: 0 0/1 * * * ?
 netty:
    port: 7000
-   url: 172.18.73.163
+   url: 172.18.73.135
 logging:
    level:
       com:
