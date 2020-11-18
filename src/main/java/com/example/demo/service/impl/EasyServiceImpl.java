@@ -1,16 +1,11 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.common.enums.ErrorEnum;
-import com.example.demo.exception.BizException;
-import com.example.demo.model.common.Result;
 import com.example.demo.service.EasyService;
 import com.example.demo.utils.HttpClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class EasyServiceImpl implements EasyService {
@@ -18,9 +13,14 @@ public class EasyServiceImpl implements EasyService {
     @Autowired
     HttpClientUtil httpClientUtil;
 
+    @Autowired
+    RestTemplate restTemplate;
+
     @Override
     public String getService() {
-        try {
+        return doGet("http://www.baidu.com");
+
+        /*try {
             URI uri = new URI("http://www.baidu.com");
             Result result = httpClientUtil.get(uri, null, null);
             System.out.println(result.getData());
@@ -29,6 +29,13 @@ public class EasyServiceImpl implements EasyService {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        return EasyServiceImpl.class.getName();
+        return EasyServiceImpl.class.getName();*/
+    }
+
+    private String doGet(String url){
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+        System.out.println(responseEntity.getStatusCode());
+        System.out.println(responseEntity.getBody());
+        return responseEntity.getBody();
     }
 }
