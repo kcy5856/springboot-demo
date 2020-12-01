@@ -6,8 +6,9 @@ public enum DateStyle {
 	HHMMSS("HHmmss"),
 	YYYYMMDDHHMMSS("yyyyMMddHHmmss"),
 	YYYY_MM_DD_HH_MM_SS("yyyy-MM-dd HH:mm:ss"),
-	YYYY_MM_DD_T_HH_MM_SS_Z_SSS("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-	
+	YYYY_MM_DD_T_HH_MM_SS_Z_SSS("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"),
+	YYYY_MM_DD_T_HH_MM_SS_Z("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
 	private String value;
 
 	private DateStyle(String value) {

@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.annotation.Limit;
 import com.example.demo.annotation.MyAspect;
 import com.example.demo.common.enums.ErrorEnum;
-import com.example.demo.exception.BizException;
 import com.example.demo.model.Student;
 import com.example.demo.model.common.Result;
 import com.example.demo.rabbitmq.MsgProducer;
@@ -14,9 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @RestController
@@ -73,7 +75,7 @@ public class DemoController {
 		msgProducer.sendMessage(nkey, mmsg);
 		//返回消息
         Student student = new Student();
-        student.setBirthday(new Date());
+        student.setBirthday(LocalDateTime.now());
         student.setName("奥力给");
 		return student;
 	}

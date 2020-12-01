@@ -3,7 +3,7 @@ package com.example.demo.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -11,7 +11,7 @@ public class Student {
 	private String id;
 	private String name;
 	private int sex;
-	private Date birthday;
+	private LocalDateTime birthday;
 	public String getId() {
 		return id;
 	}
@@ -30,10 +30,10 @@ public class Student {
 	public void setSex(int sex) {
 		this.sex = sex;
 	}
-	public Date getBirthday() {
+	public LocalDateTime getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(Date birthday) {
+	public void setBirthday(LocalDateTime birthday) {
 		this.birthday = birthday;
 	}
 	

@@ -1,9 +1,8 @@
 package com.example.demo.thread;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
+import java.util.concurrent.*;
 
 /**
  * 线程池
@@ -30,11 +29,12 @@ public class ThreadPool {
 	
 	
 	public void init() {
+		ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("common-pool-%d").build();
 		int initSize = 10;		//可改为配置
 		int maxSize = 20;
 		long aliveTime = 0L;
 		TimeUnit unit = TimeUnit.MILLISECONDS;
 		BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>(8);
-		executor = new ThreadPoolExecutor(initSize, maxSize, aliveTime, unit, workQueue);
+		executor = new ThreadPoolExecutor(initSize, maxSize, aliveTime, unit, workQueue, threadFactory, new ThreadPoolExecutor.AbortPolicy());
 	}
 }

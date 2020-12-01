@@ -15,6 +15,8 @@ public class Result<T> {
     /** 具体的内容. */
     private T data;
 
+    private Integer count;
+
     public Integer getCode() {
         return code;
     }
@@ -39,4 +41,11 @@ public class Result<T> {
         this.data = data;
     }
 
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
 }

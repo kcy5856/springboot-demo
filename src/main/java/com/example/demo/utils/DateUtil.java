@@ -4,119 +4,188 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import java.util.TimeZone;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.StringUtils;
 
 import com.example.demo.common.enums.DateStyle;
 
 public class DateUtil {
 
-	private final static String DATE_STANDARD_FORMAT = DateStyle.YYYY_MM_DD_HH_MM_SS.getValue();
-	
 	public static void main(String[] args) {
-		String hours = "12";
-		String minute = "8";
-		String weeks = "0,1,2,3,4,5,6";
-		String crontab = getCrdCrontab(hours, minute, weeks);
-		System.out.println(crontab);
+
+		String UTC_FORMATTER_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern(UTC_FORMATTER_PATTERN);
+		LocalDateTime localDateTime = LocalDateTime.now(TimeZone.getTimeZone("UTC").toZoneId());
+//		LocalDateTime localDateTime = LocalDateTime.now();
+		System.out.println(Date.from(localDateTime.atZone(TimeZone.getTimeZone("UTC").toZoneId()).toInstant()));
+		String nowStr = fmt.format(localDateTime);
+		System.out.println(nowStr);
+
+//		System.out.println(getCurrentTime());
+//		System.out.println(getCurrentMilliSecond());
+//		System.out.println(timeToString(new Date()));
+//		System.out.println(timeToString(new Date(), TimeZone.getTimeZone("UTC")));
+//		System.out.println(timeToString(new Date(), TimeZone.getTimeZone("UTC"), DateStyle.YYYY_MM_DD_T_HH_MM_SS_Z));
+//		System.out.println(stringToDate("2017-09-28 17:07:05"));
+//		System.out.println(stringToDate("2017-09-28 17:07:05", DateStyle.YYYY_MM_DD_HH_MM_SS));
+//		System.out.println(stringToDate("2017-09-28 17:07:05", TimeZone.getTimeZone("UTC"), DateStyle.YYYY_MM_DD_HH_MM_SS));
+
+		LocalDateTime localDateTime1 = toLocalDateTime(new Date(), TimeZone.getTimeZone("UTC"));
+		System.out.println(localDateTime);
+		System.out.println(LocalDateTime.now(TimeZone.getTimeZone("UTC").toZoneId()).format(DateTimeFormatter.ofPattern(DateStyle.YYYY_MM_DD_HH_MM_SS.getValue())));
+		System.out.println(localDateTime.format(DateTimeFormatter.ofPattern(DateStyle.YYYY_MM_DD_HH_MM_SS.getValue())));
+		Date date = toDate(localDateTime, TimeZone.getTimeZone("UTC"));
+		System.out.println(dateToString(date));
+
+//		String hours = "12";
+//		String minute = "8";
+//		String weeks = "0,1,2,3,4,5,6";
+//		String crontab = getCrdCrontab(hours, minute, weeks);
+//		System.out.println(crontab);
 		
 	}
 
 	/**
-	 * 获取系统当前时间
+	 * 获取时间
 	 * @return
 	 */
-	public static Date getCurrentUtcTime() {
-		StringBuffer UTCTimeBuffer = new StringBuffer();
-		// 1、取得本地时间：
-		Calendar cal = Calendar.getInstance();
-		// 2、取得时间偏移量：
-		int zoneOffset = cal.get(java.util.Calendar.ZONE_OFFSET);
-		// 3、取得夏令时差：
-		int dstOffset = cal.get(java.util.Calendar.DST_OFFSET);
-		// 4、从本地时间里扣除这些差量，即可以取得UTC时间：
-		cal.add(java.util.Calendar.MILLISECOND, -(zoneOffset + dstOffset));
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH) + 1;
-		int day = cal.get(Calendar.DAY_OF_MONTH);
-		int hour = cal.get(Calendar.HOUR_OF_DAY);
-		int minute = cal.get(Calendar.MINUTE);
-		int second = cal.get(Calendar.SECOND);
-		UTCTimeBuffer.append(year).append("-").append(month).append("-").append(day);
-		UTCTimeBuffer.append("T").append(hour).append(":").append(minute).append(":").append(second).append("Z");
-		Date date = string2Date(UTCTimeBuffer.toString(), DateStyle.YYYY_MM_DD_T_HH_MM_SS_Z_SSS.getValue());
-		return date;
+	public static Date getCurrentTime(){
+		return new Date();
 	}
 
 	/**
-	 * 增加日期中某类型的某数值。如增加日期
-	 *
-	 * @param date
-	 *            日期
-	 * @param dateType
-	 *            类型
-	 * @param amount
-	 *            数值
-	 * @return 计算后日期
-	 */
-	private static Date addInteger(Date date, int dateType, int amount){
-		Date myDate = null;
-		if(date != null){
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(date);
-			calendar.add(dateType, amount);
-			myDate = calendar.getTime();
-		}
-		return myDate;
-	}
-
-	/**
-	 * 根据小时和分钟获取日期时间
-	 * @param hours
-	 * @param minute
+	 * 获取时间戳
 	 * @return
 	 */
-	public static Date getDateTimeByHoursAndMinute(String hours, String minute) {
-		if (StringUtils.isEmpty(hours) || StringUtils.isEmpty(minute) || hours.length() > 2 || minute.length() > 2) {
-			return null;
-		}
-		Calendar cal = Calendar.getInstance();
-		
-		if(hours.length() == 2 && hours.startsWith("0")) {
-			cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hours.substring(1)));
-		}else {
-			cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hours));
-		}
-		
-		if(minute.length() == 2 && minute.startsWith("0")) {
-			cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hours.substring(1)));
-		}else {
-			cal.set(Calendar.MINUTE, Integer.parseInt(minute));
-		}
-		
-		cal.set(Calendar.SECOND, 0);
-		
-		return cal.getTime();
+	public static long getCurrentMilliSecond(){
+		return System.currentTimeMillis();
 	}
-	
+
 	/**
-	 * 日期转换为UTC时间
+	 * 时间转字符串
 	 * @param date
 	 * @return
 	 */
-	public static String convertToUTC(Date date, DateStyle dateStyle) {
-		if (Objects.isNull(date) || Objects.isNull(dateStyle)) {
-			return null;
-		}
-	    DateFormat dateFormat = new SimpleDateFormat(dateStyle.getValue());
-	    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-	    return dateFormat.format(date);
+	public static String dateToString(Date date){
+		return dateToString(date, TimeZone.getDefault());
 	}
-	
+
+	/**
+	 * 时间转字符串
+	 * @param date
+	 * @param zone
+	 * @return
+	 */
+	public static String dateToString(Date date, TimeZone zone){
+		return dateToString(date, zone, DateStyle.YYYY_MM_DD_HH_MM_SS);
+	}
+
+	/**
+	 * 时间转字符串
+	 * @param date
+	 * @param dateStyle
+	 * @return
+	 */
+	public static String dateToString(Date date, DateStyle dateStyle){
+		return dateToString(date,  TimeZone.getDefault(), DateStyle.YYYY_MM_DD_HH_MM_SS);
+	}
+
+	/**
+	 * 时间转字符串
+	 * @param date
+	 * @param zone
+	 * @param dateStyle
+	 * @return
+	 */
+	public static String dateToString(Date date, TimeZone zone, DateStyle dateStyle){
+		LocalDateTime localDateTime = LocalDateTime.now(zone.toZoneId());
+		return localDateTime.format(DateTimeFormatter.ofPattern(dateStyle.getValue()));
+	}
+
+	/**
+	 * 字符串转时间
+	 * @param dateString
+	 * @return
+	 */
+	public static Date stringToDate(String dateString){
+		return stringToDate(dateString, DateStyle.YYYY_MM_DD_HH_MM_SS);
+	}
+
+	/**
+	 * 字符串转时间
+	 * @param dateString
+	 * @param dateStyle
+	 * @return
+	 */
+	public static Date stringToDate(String dateString, DateStyle dateStyle){
+		return stringToDate(dateString, TimeZone.getDefault(), dateStyle);
+	}
+
+	/**
+	 * 指定时区的字符串转换为当前时区的字符串
+	 * @param dateString
+	 * @param zone
+	 * @param dateStyle
+	 * @return
+	 */
+	public static Date stringToDate(String dateString, TimeZone zone, DateStyle dateStyle){
+		LocalDateTime localDateTime = LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern(dateStyle.getValue()));
+		return Date.from(localDateTime.atZone(zone.toZoneId()).toInstant());
+	}
+
+	/**
+	 * localdatetime转date
+	 * @param localDateTime
+	 * @return
+	 */
+	public static Date toDate(LocalDateTime localDateTime){
+		return toDate(localDateTime, TimeZone.getDefault());
+	}
+
+	/**
+	 * localdatetime转date
+	 * @param localDateTime
+	 * @param timeZone
+	 * @return
+	 */
+	public static Date toDate(LocalDateTime localDateTime, TimeZone timeZone){
+		return Date.from(localDateTime.atZone(timeZone.toZoneId()).toInstant());
+	}
+
+	/**
+	 * date转LocalDateTime
+	 * @param date
+	 * @return
+	 */
+	public static LocalDateTime toLocalDateTime(Date date){
+		return toLocalDateTime(date, TimeZone.getDefault());
+	}
+
+	/**
+	 * date转LocalDateTime
+	 * @param date
+	 * @param zone
+	 * @return
+	 */
+	public static LocalDateTime toLocalDateTime(Date date, TimeZone zone){
+		return date.toInstant().atZone(zone.toZoneId()).toLocalDateTime();
+	}
+
+
+
+
+
+
+
+	/*-----------------------------------------   以下为获取crontab表达式使用	--------------------------------------*/
+
 	/**
 	 * 根据时间获取crd的crontab表达式
 	 * @param hours
@@ -130,8 +199,8 @@ public class DateUtil {
 			return null;
 		}
 		StringBuilder sb = new StringBuilder();
-		String utcString = convertToUTC(date, DateStyle.HHMMSS);
-		
+		String utcString = dateToString(date, TimeZone.getTimeZone("UTC"), DateStyle.HHMMSS);
+
 		String temp = null;
 		temp = utcString.substring(4, 6);
 		buildTimeString(sb, temp);
@@ -152,6 +221,35 @@ public class DateUtil {
 		
 		
 		return sb.toString();
+	}
+
+	/**
+	 * 根据小时和分钟获取日期时间
+	 * @param hours
+	 * @param minute
+	 * @return
+	 */
+	public static Date getDateTimeByHoursAndMinute(String hours, String minute) {
+		if (StringUtils.isEmpty(hours) || StringUtils.isEmpty(minute) || hours.length() > 2 || minute.length() > 2) {
+			return null;
+		}
+		Calendar cal = Calendar.getInstance();
+
+		if(hours.length() == 2 && hours.startsWith("0")) {
+			cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hours.substring(1)));
+		}else {
+			cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hours));
+		}
+
+		if(minute.length() == 2 && minute.startsWith("0")) {
+			cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hours.substring(1)));
+		}else {
+			cal.set(Calendar.MINUTE, Integer.parseInt(minute));
+		}
+
+		cal.set(Calendar.SECOND, 0);
+
+		return cal.getTime();
 	}
 	
 	/**
@@ -174,111 +272,4 @@ public class DateUtil {
 		}		
 	}
 
-	/**
-	 * localDate转Date
-	 * @param localDate
-	 * @return
-	 */
-	public static Date asDate(LocalDate localDate) {
-		return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-	}
-
-	/**
-	 * LocalDateTime转Date
-	 * @param localDateTime
-	 * @return
-	 */
-	public static Date asDate(LocalDateTime localDateTime) {
-		return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-	}
-
-	/**
-	 * Date转LocalDate
-	 * @param date
-	 * @return
-	 */
-	public static LocalDate asLocalDate(Date date) {
-		return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-	}
-
-	/**
-	 * Date转LocalDateTime
-	 * @param date
-	 * @return
-	 */
-	public static LocalDateTime asLocalDateTime(Date date) {
-		return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
-	}
-
-	public static String date2String(Date date){
-		if (date == null){
-			return null;
-		}
-		return date2String(date, DATE_STANDARD_FORMAT);
-	}
-
-	public static String date2String(Date date, String pattern){
-		if (date == null){
-			return null;
-		}
-		if (com.example.demo.utils.StringUtils.isEmpty(pattern)) {
-			pattern = DATE_STANDARD_FORMAT;
-		}
-		LocalDateTime localDateTime = asLocalDateTime(date);
-		return localDateTime.format(DateTimeFormatter.ofPattern(pattern));
-	}
-
-	/**
-	 * 毫秒时间戳转日期字符串
-	 * @param millisecond
-	 * @param pattern
-	 * @return
-	 */
-	public static String timeStamp2Date(long millisecond, String pattern) {
-		if (com.example.demo.utils.StringUtils.isEmpty(pattern)) {
-			pattern = DATE_STANDARD_FORMAT;
-		}
-		LocalDateTime dateTime = LocalDateTime.ofEpochSecond(millisecond / 1000L, 0, ZoneOffset.ofHours(8));
-		if (millisecond != 0) {
-			return dateTime.format(DateTimeFormatter.ofPattern(pattern));
-		}
-		return null;
-	}
-
-	/**
-	 * 日期/时间转时间戳-毫秒
-	 * @param date 日期/时间
-	 * @param pattern 时间格式
-	 * @return  时间戳(毫秒)
-	 */
-	public static long date2TimeStamp(String date, String pattern) {
-		long timeStamp ;
-		if (com.example.demo.utils.StringUtils.isEmpty(pattern)) {
-			pattern = DATE_STANDARD_FORMAT;
-		}
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-		LocalDateTime localDateTime = LocalDateTime.parse(date,formatter);
-		timeStamp = localDateTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
-		return timeStamp;
-	}
-
-	/**
-	 * 日期字符串转换为日期
-	 * @param dateString
-	 * @param pattern
-	 * @return
-	 */
-	public static Date string2Date(String dateString, String pattern){
-		if (dateString == null){
-			return null;
-		}
-
-		if (com.example.demo.utils.StringUtils.isEmpty(pattern)) {
-			pattern = DATE_STANDARD_FORMAT;
-		}
-
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-		LocalDateTime localDateTime = LocalDateTime.parse(dateString,formatter);
-		return asDate(localDateTime);
-	}
 }
