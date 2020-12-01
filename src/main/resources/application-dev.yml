@@ -61,3 +61,8 @@ logging:
 biz:
    user:
       topic: item_queue
+component:
+   mq: true
+   redis: true
+   mysql: true
+

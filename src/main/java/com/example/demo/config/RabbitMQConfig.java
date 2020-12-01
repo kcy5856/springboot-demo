@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import org.springframework.amqp.core.*;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,6 +33,7 @@ import org.springframework.context.annotation.Configuration;
  * @version 5.0 since 2020-01-02
  */
 @Configuration
+@ConditionalOnExpression("${component.mq}")
 public class RabbitMQConfig {
     //交换机名称
     public static final String ITEM_TOPIC_EXCHANGE = "item_topic_exchange";

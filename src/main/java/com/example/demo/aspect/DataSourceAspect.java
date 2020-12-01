@@ -7,12 +7,14 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.annotation.DataSource;
 import com.example.demo.common.enums.DataSourceType;
 import com.example.demo.datasource.DataSourceHolder;
 
+@ConditionalOnExpression("${component.mysql}")
 @Component
 @Aspect
 public class DataSourceAspect {

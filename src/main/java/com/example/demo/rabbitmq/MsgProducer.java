@@ -3,6 +3,7 @@ package com.example.demo.rabbitmq;
 import com.example.demo.config.RabbitMQConfig;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 
 /**
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Component;
  * @version 5.0 since 2020-01-02
  */
 @Component
+@ConditionalOnExpression("${component.mq}")
 public class MsgProducer {
 
     private RabbitTemplate rabbitTemplate;
