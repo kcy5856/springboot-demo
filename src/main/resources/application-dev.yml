@@ -62,7 +62,7 @@ biz:
    user:
       topic: item_queue
 component:
-   mq: true
+   mq: false
    redis: true
    mysql: true
 

@@ -24,7 +24,6 @@ import org.springframework.stereotype.Component;
  * @version 5.0 since 2020-01-02
  */
 @Component
-@ConditionalOnExpression("${component.mq}")
 public class MsgProducer {
 
     private RabbitTemplate rabbitTemplate;
