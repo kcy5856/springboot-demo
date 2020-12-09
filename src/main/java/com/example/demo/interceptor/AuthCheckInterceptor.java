@@ -24,8 +24,12 @@ public class AuthCheckInterceptor implements HandlerInterceptor {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    private EasyService easyService;
+
     @Autowired
-    EasyService easyService;
+    public AuthCheckInterceptor(EasyService easyService) {
+        this.easyService = easyService;
+    }
 
     @Override
     public void afterCompletion(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception arg3)

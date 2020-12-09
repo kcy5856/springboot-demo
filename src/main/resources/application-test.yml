@@ -52,11 +52,12 @@ task:
 netty:
    port: 7000
    url: 172.18.73.135
+
+#showSql
 logging:
    level:
       com:
          example:
-#showSql
             demo: debug
 biz:
    user:
@@ -65,6 +66,6 @@ component:
    mq: false
    redis: true
    mysql: true
-
 author:
-   name: dev
+   name: test
+

@@ -17,7 +17,6 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-@ConditionalOnExpression("${component.redis}")
 public class RestTemplateConfig {
     /**
      * 服务器返回数据(response)的时间
