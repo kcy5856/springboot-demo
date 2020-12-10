@@ -5,14 +5,14 @@ server:
 spring:
    datasource:
       first:
-         jdbc-url: jdbc:mysql://192.168.85.129:3306/tsdb?useSSL=false
-         username: mysql
-         password: mysql
+         jdbc-url: jdbc:mysql://192.168.44.128:3306/tsdb?useSSL=false&allowPublicKeyRetrieval=true
+         username: root
+         password: root
          driver-class-name: com.mysql.cj.jdbc.Driver
       second:
-         jdbc-url: jdbc:mysql://192.168.85.129:3306/tsdb2?useSSL=false
-         username: mysql
-         password: mysql
+         jdbc-url: jdbc:mysql://192.168.44.128:3306/tsdb2?useSSL=false&allowPublicKeyRetrieval=true
+         username: root
+         password: root
          driver-class-name: com.mysql.cj.jdbc.Driver
    jackson:
       date-format: yyyy-MM-dd HH:mm:ss
@@ -23,7 +23,7 @@ spring:
          max-file-size: 10MB
          max-request-size: 100MB
    rabbitmq:
-      host: 192.168.85.129
+      host: 192.168.44.128
       port: 5672
       username: admin
       password: admin
@@ -31,12 +31,12 @@ spring:
       database: 0
       cluster:
          nodes:
-         - 192.168.85.129:7001
-         - 192.168.85.129:7002
-         - 192.168.85.129:7003
-         - 192.168.85.129:7004
-         - 192.168.85.129:7005
-         - 192.168.85.129:7006
+            - 192.168.44.128:7001
+            - 192.168.44.128:7002
+            - 192.168.44.128:7003
+            - 192.168.44.128:7004
+            - 192.168.44.128:7005
+            - 192.168.44.128:7006
     lettuce: null
 #password: 123456
       pool: null
@@ -47,25 +47,28 @@ spring:
 mybatis:
    mapper-locations: classpath:mapper/*.xml
    type-aliases-package: com.example.demo.model
+   configuration:
+      map-underscore-to-camel-case: true
 task:
    print: 0 0/1 * * * ?
 netty:
    port: 7000
    url: 172.18.73.135
-
-#showSql
 logging:
    level:
       com:
          example:
+            #showSql
             demo: debug
 biz:
    user:
       topic: item_queue
 component:
-   mq: false
+   mq: true
    redis: true
    mysql: true
-author:
-   name: test
 
+elasticsearch:
+   ip: 192.168.44.128:9200
+author:
+   name: dev

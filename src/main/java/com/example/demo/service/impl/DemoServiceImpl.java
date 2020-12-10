@@ -8,6 +8,7 @@ import com.example.demo.common.tools.PropertiesHelper;
 import com.example.demo.dao.db1.StudentMapper;
 import com.example.demo.dao.db2.ClassMapper;
 import com.example.demo.exception.BizException;
+import com.example.demo.model.ClassModel;
 import com.example.demo.service.DemoService;
 import com.example.demo.thread.ThreadPool;
 import org.slf4j.Logger;
@@ -76,7 +77,8 @@ public class DemoServiceImpl implements DemoService {
 	@DataSource(DataSourceType.MYSQL_2)
 	@Override
 	public void printData() {
-		System.out.println(classMapper.listAllClass());
+		List<ClassModel> classModels = classMapper.listAllClass();
+		System.out.println(JSON.toJSON(classModels).toString());
 		
 	}
 

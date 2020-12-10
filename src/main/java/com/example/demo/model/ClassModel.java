@@ -1,19 +1,19 @@
 package com.example.demo.model;
 
 public class ClassModel {
-	private Integer id;
-	private String classType;
+	private String id;
+	private Integer classType;
 	private String className;
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
-	public String getClassType() {
+	public Integer getClassType() {
 		return classType;
 	}
-	public void setClassType(String classType) {
+	public void setClassType(Integer classType) {
 		this.classType = classType;
 	}
 	public String getClassName() {

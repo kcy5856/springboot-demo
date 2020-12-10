@@ -24,6 +24,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @author Zheng Jie
@@ -188,5 +189,11 @@ public class StringUtils extends org.springframework.util.StringUtils {
             ipAddrStr.append(ipAddr[i] & 0xFF);
         }
         return ipAddrStr.toString();
+    }
+
+    public static String getUUID(){
+        String uuid = UUID.randomUUID().toString();
+        uuid = uuid.replace("-", "");
+        return uuid;
     }
 }

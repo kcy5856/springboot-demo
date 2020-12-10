@@ -19,7 +19,7 @@
     <!-- 异步缓冲队列的深度,该值会影响性能.默认值为256 -->
     <property name="queueSize" value="256"></property>
     <!-- lOGGER  PATTERN 根据个人喜好选择匹配  -->
-    <property name="logPattern" value="[ %-5level] [%date{yyyy-MM-dd HH:mm:ss.SSS}] %logger{96} [%line] [%thread]- %msg%n"></property>
+    <property name="logPattern" value="[%thread] [ %-5level] [%date{yyyy-MM-dd HH:mm:ss.SSS}] %logger{96} [%line] - %msg%n"></property>
     <!-- %d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger - %msg%n -->
     <!-- %d{yyyy-MM-dd HH:mm:ss} %-4relative [%thread] %-5level %logger{35} - %msg %n -->
     <!-- [ %-5level] [%date{yyyy-MM-dd HH:mm:ss.SSS}] %logger{96} [%line] [%thread]- %msg%n  -->
