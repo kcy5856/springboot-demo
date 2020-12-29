@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class CompletableFutureTest {
     public static void main(String[] args){
@@ -13,8 +14,8 @@ public class CompletableFutureTest {
         bos.addAll(Arrays.asList("a=1","b=2","c=3","d=4","e=5"));
 
         CompletableFutureTest test = new CompletableFutureTest();
-        //test.testAllOf(bos);
-        test.testAnyOf(test);
+        test.testAllOf(bos);
+//        test.testAnyOf(test);
     }
 
     private void testAnyOf(CompletableFutureTest test){
@@ -42,13 +43,37 @@ public class CompletableFutureTest {
         CompletableFutureTest test = new CompletableFutureTest();
         System.out.println(JSON.toJSONString(bos));
 
-        for (String value: bos){
+        List<Bo> collect = bos.parallelStream().map(value -> {
             CompletableFuture<Bo> thebo = CompletableFuture.supplyAsync(() -> {
                 Bo bo = test.new Bo();
                 String[] split = value.split("=");
                 bo.setKey(split[1]);
                 bo.setName(split[0]);
                 System.out.println(value);
+                return bo;
+            });
+            return thebo;
+            //futureList.add(thebo);
+        }).map(a -> {
+            Bo bo = a.join();
+            System.out.println(bo.getName());
+            return bo;
+        }).collect(Collectors.toList());
+
+        System.out.println(JSON.toJSONString(collect));
+
+        /*for (String value: bos){
+            CompletableFuture<Bo> thebo = CompletableFuture.supplyAsync(() -> {
+                Bo bo = test.new Bo();
+                String[] split = value.split("=");
+                bo.setKey(split[1]);
+                bo.setName(split[0]);
+                System.out.println(value);
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 return bo;
             });
             futureList.add(thebo);
@@ -61,10 +86,13 @@ public class CompletableFutureTest {
         voidCompletableFuture.join();
         List<Bo> boList = new ArrayList<>();
         for (CompletableFuture<Bo> arg: futureList){
+            System.out.println("time.....");
             Bo bo = arg.join();
+            System.out.println(bo.getName() + "==" + System.currentTimeMillis());
             boList.add(bo);
         }
-        System.out.println(JSON.toJSONString(boList));
+        System.out.println("bbbbbb");
+        System.out.println(JSON.toJSONString(boList));*/
     }
 
     class Bo {
