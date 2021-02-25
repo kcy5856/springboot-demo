@@ -1,25 +1,28 @@
 package com.example.demo.utils;
 
+/**
+ * 线程参数共享：
+ * 1. 开启线程时手动设置(set)后，线程内所有皆可直接获取(get)
+ * 2. 如果使用线程池，结束时需手工清理(clear)
+ */
 public class ThreadLocalContextHolder {
-    /**
-     * 不同业务设置不同的业务场景，如：业务A设置值为1，业务B设置值为2...
-     */
-    private static ThreadLocal<String> local = new ThreadLocal<>();
+
+    private static ThreadLocal<Object> threadLocal = new ThreadLocal<>();
 
 
-    public static String get() {
-        return local.get();
+    public static Object get() {
+        return threadLocal.get();
     }
 
-    public static void set(String scene) {
-        if (ThreadLocalContextHolder.local == null) {
-            ThreadLocalContextHolder.local = new ThreadLocal<>();
+    public static void set(Object scene) {
+        if (ThreadLocalContextHolder.threadLocal == null) {
+            ThreadLocalContextHolder.threadLocal = new ThreadLocal<>();
         }
-        ThreadLocalContextHolder.local.set(scene);
+        ThreadLocalContextHolder.threadLocal.set(scene);
     }
 
-    public static void clearScene() {
-        ThreadLocalContextHolder.local.remove();
+    public static void clear() {
+        threadLocal.remove();
     }
 
 }

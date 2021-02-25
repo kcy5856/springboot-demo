@@ -10,14 +10,14 @@ public class ThreadLocalTest implements Runnable{
     }
 
     public ThreadLocalTest(String s){
-        ThreadLocalContextHolder.initScene(s);
-        System.out.println("==" + ThreadLocalContextHolder.getScene());
+        ThreadLocalContextHolder.set(s);
+        System.out.println("==" + ThreadLocalContextHolder.get());
     }
     static int i = 1;
 
     @Override
     public void run() {
-        ThreadLocalContextHolder.initScene("ccc"+ (i++)) ;
+        ThreadLocalContextHolder.set("ccc"+ (i++)) ;
         System.out.println(Thread.currentThread() + "-----");
         test.get();
     }

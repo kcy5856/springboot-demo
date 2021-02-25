@@ -4,7 +4,7 @@ public class ThreadRunTest {
 
     public static void get(){
 
-        System.out.println("=====" + ThreadLocalContextHolder.getScene());
+        System.out.println("=====" + ThreadLocalContextHolder.get());
 
     }
 
