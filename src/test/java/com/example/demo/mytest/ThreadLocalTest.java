@@ -1,24 +1,52 @@
 package com.example.demo.mytest;
 
-public class ThreadLocalTest implements Runnable{
-    ThreadRunTest test = new ThreadRunTest();
+public class ThreadLocalTest {
+
     public static void main(String[] args){
-        System.out.println(Thread.currentThread());
-        new Thread(new ThreadLocalTest("aa")).start();
-        new Thread(new ThreadLocalTest("bb")).start();
-
+    	ThreadLocalContextHolder.set("main");
+    	
+    	Thread threadFirst = new Thread(()->{
+    		WriteSome write = new WriteSome();
+        	String writeName = write.writeName("first");
+        	System.out.println(writeName);
+        	ReadSome read = new ReadSome();
+        	String readName = read.getReadName();
+        	System.out.println(readName);
+    	});
+    	
+    	Thread threadSecond = new Thread(()->{
+    		WriteSome write = new WriteSome();
+        	String writeName = write.writeName("second");
+        	System.out.println(writeName);
+        	ReadSome read = new ReadSome();
+        	String readName = read.getReadName();
+        	System.out.println(readName);
+    	});
+    	
+    	threadFirst.start();
+    	threadSecond.start();
+    	
+    	String main = (String) ThreadLocalContextHolder.get();
+    	System.out.println(main);
+    	
     }
 
-    public ThreadLocalTest(String s){
-        ThreadLocalContextHolder.set(s);
-        System.out.println("==" + ThreadLocalContextHolder.get());
-    }
-    static int i = 1;
+    
+}
 
-    @Override
-    public void run() {
-        ThreadLocalContextHolder.set("ccc"+ (i++)) ;
-        System.out.println(Thread.currentThread() + "-----");
-        test.get();
-    }
+class ReadSome {
+	
+	public String getReadName(){
+		String name = (String) ThreadLocalContextHolder.get();
+		return "read " + name;
+	}
+}
+
+class WriteSome {
+
+	
+	public String writeName(String name){
+		ThreadLocalContextHolder.set(name);
+		return "write " + name;
+	}
 }
